@@ -17,6 +17,8 @@ return new class extends Migration
             $table->date('date')->index();
             $table->unsignedInteger('total_minutes')->default(0);
             $table->text('summary_of_work');
+            $table->string('status', 20)->default('pending');
+            $table->unsignedBigInteger('approval_by')->nullable()->index();
             $table->timestamps();
 
             $table->foreign('project_user_id')->references('id')->on('project_users');

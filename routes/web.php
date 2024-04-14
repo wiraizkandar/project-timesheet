@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LoginUserController;
 use App\Http\Controllers\Auth\RegisterUserController;
+use App\Http\Controllers\User\TimeSheetController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 
@@ -38,7 +39,11 @@ Route::group(['prefix' => 'user'], function () {
     Route::post("/register", [RegisterUserController::class, 'store'])->name("user.register");
     Route::get("/register", [RegisterUserController::class, 'showUserRegisterPage'])->name("user.register");
 
+
     Route::group(['middleware' => 'auth:user'], function () {
         Route::get("/dashboard", [UserDashboardController::class, 'index'])->name("user.dashboard");
+
+        // User TimeSheet
+        Route::get("/timesheet", [TimeSheetController::class, 'index'])->name("user.timesheet");
     });
 });

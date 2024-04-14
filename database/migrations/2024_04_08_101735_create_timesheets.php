@@ -11,12 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('timesheets', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
+            $table->unsignedBigInteger('project_user_id')->index();
+            $table->date('date')->index();
+            $table->unsignedInteger('total_minutes')->default(0);
+            $table->text('summary_of_work');
             $table->timestamps();
+
+            $table->foreign('project_user_id')->references('id')->on('project_users');
         });
     }
 
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('timesheets');
     }
 };

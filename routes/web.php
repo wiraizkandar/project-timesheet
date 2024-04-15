@@ -35,6 +35,7 @@ Route::group(['prefix' => 'admin'], function () {
 Route::group(['prefix' => 'user'], function () {
 
     Route::get("/login", [LoginUserController::class, 'showUserLoginPage'])->name("user.login");
+    Route::get("/logout", [LoginUserController::class, 'showUserLoginPage'])->name("user.logout");
     Route::post("/authenticate", [LoginUserController::class, 'authenticate'])->name("user.authenticate");
     Route::post("/register", [RegisterUserController::class, 'store'])->name("user.register");
     Route::get("/register", [RegisterUserController::class, 'showUserRegisterPage'])->name("user.register");

@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('project_id')->index();
             $table->unsignedBigInteger('user_id')->index();
-            $table->unsignedBigInteger('role_id')->index();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
 
@@ -23,7 +22,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
 
             $table->index(['project_id', 'user_id', 'is_active'], 'user_project_idx');
-            $table->index(['user_id', 'role_id', 'is_active'], 'user_roles_idx');
+            $table->index(['user_id',  'is_active'], 'user_roles_idx');
         });
     }
 

@@ -9,13 +9,17 @@ use Illuminate\Support\Facades\Hash;
 
 class RegisterUserController extends Controller
 {
+    /**
+     * Show the user registration form.
+     */
     public function showUserRegisterPage(): \Illuminate\View\View
     {
         return view('auth.user-register');
     }
 
     /**
-     * Store a new user in the database.
+     * Store the user registration form data.
+     * @param RegisterUserFormRequest $request
      */
     public function store(RegisterUserFormRequest $request): \Illuminate\Http\RedirectResponse
     {

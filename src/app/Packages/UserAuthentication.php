@@ -34,8 +34,4 @@ class UserAuthentication implements AuthenticationInterface
         // failed authenticate user
         throw new InvalidUserLoginException('Invalid credentials');
     }
-
-    public function logout()
-    {
-    }
 }

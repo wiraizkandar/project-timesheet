@@ -24,7 +24,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 Route::get("/", [HomeController::class, 'index'])->name("home");
 
 Route::group(['prefix' => 'admin'], function () {
-    Route::get("/login", [LoginController::class, 'showAdminLoginPage'])->name("admin.login");
+    Route::get("/login", [AdminLoginController::class, 'showAdminLoginPage'])->name("admin.login");
     Route::post("/authenticate", [AdminLoginController::class, 'authenticate'])->name("admin.authenticate");
 
     Route::group(['middleware' => 'auth:admin'], function () {

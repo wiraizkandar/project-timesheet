@@ -34,8 +34,4 @@ class AdminAuthentication implements AuthenticationInterface
         // failed authenticate user
         throw new InvalidAdminLoginException('Invalid credentials');
     }
-
-    public function logout()
-    {
-    }
 }

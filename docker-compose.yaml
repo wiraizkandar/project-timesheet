@@ -5,11 +5,37 @@ networks:
     name: timesheet
 
 services:
+  nginx:
+      build:
+        context: .
+        dockerfile: nginx.dockerfile
+      container_name: nginx-timesheet
+      depends_on:
+        - mysql
+        - php
+      ports:
+        - "3000:80"
+        - "8443:443"
+      volumes:
+        - ./src:/var/www/html
+      networks:
+        - timesheet
+
+  php:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    container_name: php-timesheet
+    volumes:
+      - ./src:/var/www/html
+    networks:
+      - timesheet
+
   mysql:
     image: mysql:8.0.0
     container_name: mysql-timesheet-1
     ports:
-      - "4306:3306"
+      - "5306:3306"
     volumes:
       - ./mysql:/var/lib/mysql
     environment:
@@ -30,6 +56,47 @@ services:
     volumes:
       - redis_data:/data
     restart: always
+
+  artisan:
+    build:
+      args:
+        user: sammy
+        uid: 1000
+      context: .
+      dockerfile: php.dockerfile
+    container_name: artisan-timesheet
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    entrypoint:
+      - php
+      - artisan
+    networks:
+      - timesheet
+
+  composer:
+    image: composer:latest
+    container_name: composer-timesheet
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    networks:
+      - timesheet
+
+  npm:
+    image: node:latest
+    container_name: npm-timesheet
+    volumes:
+      - ./src:/var/www/html
+      # - ./nginx/certs:/etc/vite/certs
+    working_dir: /var/www/html
+    ports:
+      - "5173:5173"
+      - "3001:3001"
+    entrypoint:
+      - npm
+    networks:
+      - timesheet
 
 volumes:
   redis_data:

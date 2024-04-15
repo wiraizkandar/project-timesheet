@@ -5,7 +5,6 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateTimeSheetRequest;
 use App\Http\Requests\EditTimeSheetRequest;
-use App\Models\Project;
 use App\Models\ProjectUser;
 use App\Models\Timesheet;
 use Illuminate\Contracts\View\View;
@@ -25,7 +24,11 @@ class TimeSheetController extends Controller
 
         return view('user.timesheets', compact('timesheets'));
     }
-
+    /**
+     * View create new timesheet page
+     *
+     * @return View
+     */
     public function showCreateTimeSheet(): View
     {
         $userProjects = ProjectUser::UserProjects()->get();
@@ -33,6 +36,12 @@ class TimeSheetController extends Controller
         return view('user.create-timesheet', compact('userProjects'));
     }
 
+    /**
+     * Store a newly created timesheet in database
+     *
+     * @param CreateTimeSheetRequest $request
+     * @return void
+     */
     public function storeCreateTimeSheet(CreateTimeSheetRequest $request)
     {
         try {
@@ -50,6 +59,12 @@ class TimeSheetController extends Controller
         }
     }
 
+    /**
+     * Show edit timesheet page
+     *
+     * @param int $id
+     * @return \Illuminate\Contracts\View\View
+     */
     public function showEditTimesheet($id)
     {
         $timesheet = Timesheet::UserTimesheet()
@@ -59,6 +74,13 @@ class TimeSheetController extends Controller
         return view('user.edit-timesheet', compact('timesheet'));
     }
 
+    /**
+     * store edited timesheet in database
+     *
+     * @param EditTimeSheetRequest $request
+     * @param $id
+     * @return void
+     */
     public function storeEditTimeSheet(EditTimeSheetRequest $request, $id)
     {
         try {
@@ -80,6 +102,12 @@ class TimeSheetController extends Controller
         }
     }
 
+    /**
+     * show delete timesheet page
+     *
+     * @param  $id
+     * @return \Illuminate\Contracts\View\View
+     */
     public function showDeleteTimesheet($id)
     {
         $timesheet = Timesheet::UserTimesheet()
@@ -89,6 +117,12 @@ class TimeSheetController extends Controller
         return view('user.delete-timesheet', compact('timesheet'));
     }
 
+    /**
+     * delete selected timesheet
+     *
+     * @param int $id
+     * @return void
+     */
     public function deleteTimesheet($id)
     {
         try {

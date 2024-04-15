@@ -38,7 +38,6 @@ class UserTimesheetTest extends TestCase
         ProjectUser::factory()->create([
             'project_id' => $project->id,
             'user_id' => $this->user->id,
-            'role_id' => 1
         ])->timesheets()->createMany([
             [
                 'date' => '2021-10-01',

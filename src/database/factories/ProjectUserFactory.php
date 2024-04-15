@@ -19,7 +19,6 @@ class ProjectUserFactory extends Factory
         return [
             'project_id' => $this->faker->numberBetween(1, 10),
             'user_id' => $this->faker->date(),
-            'role_id' => $this->faker->numberBetween(20, 100)
         ];
     }
 }

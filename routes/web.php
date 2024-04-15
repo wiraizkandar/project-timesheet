@@ -45,5 +45,13 @@ Route::group(['prefix' => 'user'], function () {
 
         // User TimeSheet
         Route::get("/timesheet", [TimeSheetController::class, 'index'])->name("user.timesheet");
+        Route::get("/timesheet/{id}/edit", [TimeSheetController::class, 'showEditTimesheet'])->name("user.timesheet.edit");
+        Route::put("/timesheet/{id}/edit", [TimeSheetController::class, 'storeEditTimeSheet'])->name("user.timesheet.edit.store");
+
+        Route::get("/timesheet/create", [TimeSheetController::class, 'showCreateTimeSheet'])->name("user.timesheet.create");
+        Route::post("/timesheet/create", [TimeSheetController::class, 'storeCreateTimeSheet'])->name("user.timesheet.create.store");
+
+        Route::get("/timesheet/{id}/delete", [TimeSheetController::class, 'showDeleteTimeSheet'])->name("user.timesheet.delete");
+        Route::delete("/timesheet/{id}/delete", [TimeSheetController::class, 'deleteTimesheet'])->name("user.timesheet.delete.store");
     });
 });

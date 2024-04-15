@@ -35,4 +35,11 @@ class ProjectUser extends Model
     {
         return $this->hasMany(Timesheet::class, 'project_user_id', 'id');
     }
+
+    public function scopeUserProjects($query)
+    {
+        return $query->with([
+            'project:project_name,id'
+        ])->where('user_id', auth('user')->id());
+    }
 }

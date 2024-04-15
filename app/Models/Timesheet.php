@@ -6,15 +6,18 @@ use Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Carbon\CarbonInterval;
+use Carbon\Carbon;
 
 class Timesheet extends Model
 {
     use HasFactory;
 
+
     protected $fillable = [
+        'project_user_id',
         'date',
-        'total_minutes',
+        'time_start',
+        'time_end',
         'summary_of_work',
     ];
 
@@ -28,25 +31,26 @@ class Timesheet extends Model
         return $this->hasOne(ProjectUser::class, 'id', 'project_user_id');
     }
 
+    public function getDurationAttribute()
+    {
+        return (Carbon::parse($this->time_start))
+            ->diff(Carbon::parse($this->time_end))
+            ->format('%H Hours %I Minutes');
+    }
+
     /**
      * Get list of authenticated user timesheets
      *
      * @param [type] $query
      * @return EloquentBuilder
      */
-    public function scopeUserTimesheets($query)
+    public function scopeUserTimesheet($query)
     {
         return $query->with([
             'projectUser',
             'projectUser.project:project_name,id'
         ])->whereHas('projectUser', function ($q) {
             $q->where('user_id', auth('user')->id());
-        })->select([
-            'id',
-            'date',
-            'total_minutes',
-            'summary_of_work',
-            'project_user_id'
-        ]);
+        });
     }
 }
